@@ -1,0 +1,5 @@
+Description:
+  Generates the necessary files to get you up and running with ActiveAdminMenu gem
+
+Examples:
+  rails generate active_admin_menu:install
