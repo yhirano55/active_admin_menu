@@ -4,8 +4,6 @@ module ActiveAdminMenu
   class << self
     def configure
       yield(config)
-    rescue NoMethodError => e
-      raise Config::InvalidAttribute, ":#{e.name.to_s.chop} is invalid attribute"
     end
 
     def config
@@ -14,9 +12,6 @@ module ActiveAdminMenu
   end
 
   class Config
-    class InvalidAttribute < StandardError; end
-    class FileNotFound < StandardError; end
-
     attr_reader :source
     attr_accessor :namespace, :uncategorize_key_name, :i18n_scope_prefix
 
@@ -28,8 +23,6 @@ module ActiveAdminMenu
 
     def source=(value)
       @source = value.is_a?(Hash) ? value : YAML.load_file(value.to_s)
-    rescue => e
-      raise FileNotFound, e.message
     end
 
     def namespaced_source
