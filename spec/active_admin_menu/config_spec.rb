@@ -3,25 +3,13 @@ require "spec_helper"
 describe ActiveAdminMenu::Config do
   describe "configurable" do
     describe ".configure" do
-      context "when acceptable attribute" do
-        subject do
-          ActiveAdminMenu.configure do |config|
-            config.namespace = "development"
-          end
+      subject do
+        ActiveAdminMenu.configure do |config|
+          config.namespace = "development"
         end
-
-        it { expect { subject }.not_to raise_error }
       end
 
-      context "when unacceptable attribute" do
-        subject do
-          ActiveAdminMenu.configure do |config|
-            config.foobar = 123
-          end
-        end
-
-        it { expect { subject }.to raise_error(described_class::InvalidAttribute) }
-      end
+      it { expect { subject }.not_to raise_error }
     end
 
     describe ".config" do
@@ -51,11 +39,6 @@ describe ActiveAdminMenu::Config do
           instance.source.should_not be_empty
           instance.source.should be_a Hash
         end
-      end
-
-      context "when value is not Hash nor path to yaml" do
-        let(:value) { nil }
-        it { expect { subject }.to raise_error(described_class::FileNotFound) }
       end
     end
 

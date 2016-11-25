@@ -10,20 +10,21 @@ module ActiveAdminMenu
     end
 
     def to_options
-      { priority: priority }.tap do |options|
-        options.store(:parent, I18n.t(parent_i18n_scope, default: parent)) if parent
-        options.store(:label, I18n.t(label_i18n_scope, default: resource_name)) if is_page
-      end
+      { parent: parent_i18n, label: label_i18n, priority: priority }.reject { |_, v| v.nil? }
     end
 
     private
 
-    def parent_i18n_scope
-      [config.i18n_scope_prefix[:parent], parent.downcase].join(".")
+    def parent_i18n
+      return unless parent
+
+      I18n.t([config.i18n_scope_prefix[:parent], parent.downcase].join("."), default: parent)
     end
 
-    def label_i18n_scope
-      [config.i18n_scope_prefix[:label], resource_name.downcase].join(".")
+    def label_i18n
+      return unless is_page
+
+      I18n.t([config.i18n_scope_prefix[:label], resource_name.downcase].join("."), default: resource_name)
     end
 
     def config
