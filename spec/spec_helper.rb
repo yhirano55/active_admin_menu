@@ -26,21 +26,10 @@ require ENV["RAILS_ROOT"] + "/config/environment.rb"
 # Disabling authentication in specs so that we don't have to worry about
 # it allover the place
 ActiveAdmin.application.authentication_method = false
-ActiveAdmin.application.current_user_method = false
+ActiveAdmin.application.current_user_method   = false
 
+# == RSpec
 require "rspec/rails"
-require "capybara/rails"
-require "capybara/rspec"
-require "capybara/poltergeist"
-
-Capybara.register_driver :poltergeist do |app|
-  Capybara::Poltergeist::Driver.new(app, js_errors: true,
-                                         timeout: 80,
-                                         debug: true,
-                                         phantomjs_options: ["--debug=no", "--load-images=no"])
-end
-
-Capybara.javascript_driver = :poltergeist
 
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
@@ -55,3 +44,17 @@ RSpec.configure do |config|
 
   config.use_transactional_fixtures = true
 end
+
+# == Capybara
+require "capybara/rails"
+require "capybara/rspec"
+require "capybara/poltergeist"
+
+Capybara.register_driver :poltergeist do |app|
+  Capybara::Poltergeist::Driver.new(app, js_errors: true,
+                                         timeout: 80,
+                                         debug: true,
+                                         phantomjs_options: ["--debug=no", "--load-images=no"])
+end
+
+Capybara.javascript_driver = :poltergeist
