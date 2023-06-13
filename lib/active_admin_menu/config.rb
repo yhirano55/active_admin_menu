@@ -22,11 +22,18 @@ module ActiveAdminMenu
     end
 
     def source=(value)
-      @source = value.is_a?(Hash) ? value : YAML.load_file(value.to_s)
+      @source = value.is_a?(Hash) ? value : load_yaml_file(value)
     end
 
     def namespaced_source
       source[namespace] || source
+    end
+
+    private
+
+    def load_yaml_file(file_name)
+      text = File.read(file_name)
+      YAML.respond_to?(:unsafe_load) ? YAML.unsafe_load(text) : YAML.load(text)
     end
   end
 end
